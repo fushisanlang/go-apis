@@ -1,0 +1,10 @@
+database:
+  default:
+    type: sqlite
+    link: "db/idea.db"
+  logger:
+    path:    "log/sql"
+    level:   "all"
+    stdout:  true    
+server: #server port
+  address: 51010    
