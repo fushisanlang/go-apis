@@ -36,6 +36,7 @@ rm -f ${dockerfileTemp}
 echo "FROM ubuntu:with_bag" >> ${dockerfileTemp}
 echo "WORKDIR "${dockerWorkDir} >> ${dockerfileTemp}
 echo "COPY . ." >> ${dockerfileTemp}
+echo "ENV TZ=Asia/Shanghai" >> ${dockerfileTemp}
 echo "CMD [\""${dockerWorkDir}"/"${binName}"\"]" >> ${dockerfileTemp}
 
 rm ${dockerFile}

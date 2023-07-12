@@ -12,6 +12,9 @@ import (
 func Idea(idea string, ctx g.Ctx) {
 	sql := "select count(1) as count from idea where idea = ? ;"
 
+	currentTime := time.Now()
+	timestamp := currentTime.Unix()
+	timestampStr := gconv.String(timestamp)
 	ideaCount, err := g.DB().GetOne(ctx, sql, idea)
 	ideaCountInt := gconv.Int(ideaCount["count"])
 	if err != nil {
@@ -20,17 +23,17 @@ func Idea(idea string, ctx g.Ctx) {
 	if ideaCountInt == 0 {
 		_, err = g.DB().Insert(ctx, "idea", gdb.Map{
 
-			"idea":   idea,
-			"status": 0,
+			"idea":       idea,
+			"status":     0,
+			"addtime":    timestampStr,
+			"changetime": timestampStr,
 		})
 		if err != nil {
 			panic(err)
 		}
 	} else {
 
-		currentTime := time.Now()
-		formattedTime := currentTime.Format("2006-01-02 15:04:05")
-		_, err = g.DB().Update(ctx, "idea", gdb.Map{"changetime": formattedTime}, "idea=?", idea)
+		_, err = g.DB().Update(ctx, "idea", gdb.Map{"changetime": timestampStr}, "idea=?", idea)
 		if err != nil {
 			panic(err)
 		}

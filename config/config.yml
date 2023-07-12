@@ -7,4 +7,4 @@ database:
     level:   "all"
     stdout:  true    
 server: #server port
-  address: 51010    
+  address: 51001    
