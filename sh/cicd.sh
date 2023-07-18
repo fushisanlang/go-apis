@@ -4,6 +4,7 @@ dockerWorkDir="/main"
 binName="apis"
 projectName="go-apis"
 version=${1}
+dbFile=${2}
 
 dockerContainerPort="50001"
 dockerContainerName="go-apis-"${dockerContainerPort}
@@ -11,8 +12,6 @@ dockerContainerName="go-apis-"${dockerContainerPort}
 
 timeStr=`date +%Y%m%d`
 imageVersion=${timeStr}_${version}
-
-
 
 binDir=${workDir}"bin/"
 scriptDir=${workDir}"sh/"
@@ -24,6 +23,34 @@ dockerdataDir="/data/"${projectName}"_docker/"
 alias sdocker="sudo docker"
 oldImage=`sdocker ps | grep ${dockerContainerName} | awk '{print $2}'`
 
+# ask
+echo "get imageVersion "${imageVersion}
+
+echo "get dbFile "${dbFile}
+
+echo "i can't update conf, are you update it??? " 
+
+read -p "update? (y/n): " input
+
+if [ "$input" = "y" ]; then
+    echo "updating ..."
+elif [ "$input" = "n" ]; then
+    echo "exiting ..."
+    exit 0
+else
+    echo "input err"
+    exit 1
+fi
+
+if [[ -z "${dbFile}" ]]; then
+    echo "no db source"
+else
+    # bak db
+    mkdir -p ${dockerdataDir}dbbak_${imageVersion}
+    cp ${dockerdataDir}db/* ${dockerdataDir}/dbbak_${imageVersion}
+    # source sql to db
+    sqlite3 ${dockerdataDir}db/apis.db < ${workDir}sql/${dbFile}
+fi
 
 
 # go build
