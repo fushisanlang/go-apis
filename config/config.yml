@@ -1,10 +1,14 @@
 database:
   default:
     type: sqlite
-    link: "db/idea.db"
+    link: "db/apis.db"
   logger:
     path:    "log/sql"
     level:   "all"
     stdout:  true    
 server: #server port
   address: 51001    
+logger:
+  path: "log"
+  level: "all"
+  stdout: true

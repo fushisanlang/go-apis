@@ -1,5 +1,4 @@
 log
-sql/*
 db/*
 bin/*
 apis

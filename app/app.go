@@ -12,5 +12,8 @@ func Run() {
 	group := s.Group("/go-api")
 	group.ALL("/idea", api.Idea)
 	group.GET("/nongli", api.Nongli)
+	group = s.Group("/go-api/oldsouth")
+	group.ALL("/meta", api.Meta)
+	group.GET("/metas", api.Metas)
 	s.Run()
 }
